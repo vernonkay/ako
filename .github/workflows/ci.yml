@@ -1,0 +1,28 @@
+name: CI
+
+# ako is at the idea stage, so CI is light: it enforces the one policy that matters now,
+# no AI attribution trailers in new commits. It grows real checks when there is code.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  no-ai-trailers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check for AI attribution trailers in new commits
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="${{ github.base_ref }}" bash scripts/check/ci-no-ai-trailers.sh
+          else
+            BEFORE_SHA="${{ github.event.before }}" bash scripts/check/ci-no-ai-trailers.sh
+          fi

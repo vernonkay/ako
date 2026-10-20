@@ -1,0 +1,38 @@
+name: Idea or proposal
+description: Suggest a direction, a capability, or something to track
+labels: ["needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for this. A quick skim of [VISION.md](https://github.com/vernonkay/ako/blob/main/VISION.md) first is worth it, it says what ako is deliberately trying to be, and not be. Open-ended thinking is very welcome too, best as a [Discussion](https://github.com/vernonkay/ako/discussions).
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's the problem or opportunity?
+      description: What are you trying to do, or what should ako do, that it does not today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like?
+      description: Your proposed direction, and any alternatives you considered.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Safety
+        - Perception
+        - Curriculum / pedagogy
+        - Framework / architecture
+        - Docs
+        - Other
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else?
+      description: Context, references, a war story, how you teach or learn this today.

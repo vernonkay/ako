@@ -1,0 +1,29 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Local env / secrets
+.env
+.env.local
+*.local
+
+# Python (expected once perception work starts)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Node (expected once an app starts)
+node_modules/
+dist/
+.vite/
+
+# Model weights and large artefacts (keep out of git; document their source instead)
+*.pt
+*.onnx
+*.tflite

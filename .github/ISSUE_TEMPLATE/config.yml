@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions, ideas & show-and-tell
+    url: https://github.com/vernonkay/ako/discussions
+    about: For open-ended feedback, questions, and how you teach or learn this. Issues are for concrete proposals and problems to track.
+  - name: Security or safety concern (private)
+    url: https://github.com/vernonkay/ako/security/advisories/new
+    about: Please report security issues, or a way the design could mislead a learner into an unsafe action, privately here.

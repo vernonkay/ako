@@ -1,0 +1,27 @@
+name: Welcome
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: >
+            Thanks for opening your first issue in ako, and welcome. ako is at the idea
+            stage, so your thinking is exactly what is most useful right now. I read
+            everything and every issue gets a reply. Appreciate you taking the time.
+          pr-message: >
+            Thanks for your first pull request to ako, and welcome. I'll review it as soon
+            as I can. A quick skim of CONTRIBUTING.md keeps things smooth. Thank you for
+            contributing.
