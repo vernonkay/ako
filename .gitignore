@@ -23,6 +23,9 @@ node_modules/
 dist/
 .vite/
 
+# Cloudflare Wrangler (local deploy cache for the landing site in site/)
+.wrangler/
+
 # Model weights and large artefacts (keep out of git; document their source instead)
 *.pt
 *.onnx
