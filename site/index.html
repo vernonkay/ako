@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>ako — an AI tutor that teaches you to run a lathe, safely</title>
+    <meta
+      name="description"
+      content="ako is an open-source idea: an AI tutor that watches you at a real manual lathe through a camera and microphone, coaches you project by project, and keeps you safe. It coaches, it never controls the machine."
+    />
+    <meta property="og:title" content="ako" />
+    <meta
+      property="og:description"
+      content="A patient teacher that watches you at the lathe, coaches you safely, and never touches the machine. An open-source idea, at the invitation stage."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1512" media="(prefers-color-scheme: dark)" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #181c18;
+        --paper: #faf9f6;
+        --panel: #f0efe9;
+        --teal: #0f8a7c;
+        --slate: #6f756b;
+        --border: #e3e1d8;
+        --teal-soft: #dcefeb;
+        --ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --display: "Fraunces", Georgia, "Times New Roman", serif;
+        --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --ink: #eef0ea;
+          --paper: #0f1512;
+          --panel: #161d19;
+          --teal: #34b8a8;
+          --slate: #98a095;
+          --border: #243029;
+          --teal-soft: #10251f;
+          color-scheme: dark;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--ui);
+        line-height: 1.6;
+        font-size: 17px;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+      }
+      a {
+        color: var(--teal);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* Logomark: round bar seen end-on, with a tool touching it — turning on a lathe. */
+      .mark {
+        width: 50px;
+        height: 50px;
+        display: block;
+        margin: 0 auto 28px;
+      }
+      .mark .bar {
+        stroke: var(--ink);
+      }
+      .mark .tool {
+        stroke: var(--teal);
+      }
+
+      header.hero {
+        text-align: center;
+        padding: 72px 0 8px;
+      }
+      .wordmark {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: clamp(60px, 14vw, 112px);
+        letter-spacing: -0.03em;
+        line-height: 1;
+        margin: 0;
+      }
+      .wordmark .dot {
+        color: var(--teal);
+      }
+      .meaning {
+        color: var(--slate);
+        font-family: var(--mono);
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        margin: 18px 0 0;
+      }
+      .tagline {
+        font-family: var(--display);
+        font-weight: 500;
+        font-size: clamp(25px, 5vw, 39px);
+        line-height: 1.18;
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+        max-width: 20ch;
+        margin: 28px auto 0;
+      }
+      .sub {
+        color: var(--slate);
+        max-width: 56ch;
+        margin: 18px auto 0;
+      }
+
+      .cta {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 36px 0 8px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 15px;
+        padding: 11px 20px;
+        border-radius: 9px;
+        border: 1px solid transparent;
+      }
+      .btn:hover {
+        text-decoration: none;
+      }
+      .btn.primary {
+        background: var(--teal);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        filter: brightness(1.06);
+      }
+      .btn.ghost {
+        border-color: var(--border);
+        color: var(--ink);
+      }
+      .btn.ghost:hover {
+        border-color: var(--slate);
+      }
+      .status {
+        text-align: center;
+        color: var(--slate);
+        font-size: 13.5px;
+        margin-top: 10px;
+      }
+      .status b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      section.commitments {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin: 64px 0;
+      }
+      .card {
+        background: var(--paper);
+        padding: 26px 24px;
+      }
+      .card h3 {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 19px;
+        margin: 0 0 8px;
+        letter-spacing: -0.01em;
+      }
+      .card h3 .tick {
+        color: var(--teal);
+        font-family: var(--mono);
+        margin-right: 7px;
+      }
+      .card p {
+        margin: 0;
+        color: var(--slate);
+        font-size: 15px;
+      }
+      @media (max-width: 560px) {
+        section.commitments {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      section.invite {
+        text-align: center;
+        padding: 8px 0 8px;
+        margin: 0 0 64px;
+      }
+      section.invite h2 {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: clamp(22px, 4.5vw, 30px);
+        letter-spacing: -0.015em;
+        margin: 0 auto;
+        max-width: 22ch;
+        text-wrap: balance;
+      }
+      section.invite p {
+        color: var(--slate);
+        max-width: 54ch;
+        margin: 16px auto 28px;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 32px 0 calc(40px + env(safe-area-inset-bottom));
+        color: var(--slate);
+        font-size: 13.5px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="hero">
+        <svg class="mark" viewBox="0 0 50 50" fill="none" aria-hidden="true">
+          <circle class="bar" cx="22" cy="24" r="11" stroke-width="3.2" />
+          <path
+            class="tool"
+            d="M44 44 L33 33"
+            stroke-width="3.2"
+            stroke-linecap="round"
+          />
+        </svg>
+        <h1 class="wordmark">ako<span class="dot">.</span></h1>
+        <p class="meaning">ako &mdash; te reo Māori: to learn, and to teach</p>
+        <p class="tagline">A patient teacher that watches you at the lathe.</p>
+        <p class="sub">
+          Point a camera and a microphone at a real manual lathe. ako watches what you do,
+          talks you through a project step by step, checks your technique, and keeps you
+          safe, from your first start-up to real turned parts. It coaches. It never touches
+          the machine.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="https://github.com/vernonkay/ako">Explore the idea</a>
+          <a class="btn ghost" href="https://github.com/vernonkay/ako/blob/main/VISION.md"
+            >Read the vision</a
+          >
+        </div>
+        <p class="status">
+          Open source · MIT or Apache-2.0 · <b>an idea at the invitation stage</b> · Aotearoa
+          New Zealand
+        </p>
+      </header>
+
+      <section class="commitments">
+        <div class="card">
+          <h3><span class="tick">&gt;</span>Coach, never control</h3>
+          <p>
+            ako has no wires to the machine and no power to stop it. Only the human stops a
+            manual lathe. ako watches, warns, verifies, and withholds approval, and when it
+            is not sure, it says so and asks you.
+          </p>
+        </div>
+        <div class="card">
+          <h3><span class="tick">&gt;</span>The operator stays the thinker</h3>
+          <p>
+            Where ako cannot see something reliably, it does not pretend to. It hands the
+            task back: measure it, work it out, tell me what you found. Honest engineering,
+            and better teaching than a confident guess.
+          </p>
+        </div>
+        <div class="card">
+          <h3><span class="tick">&gt;</span>Safety is certified first</h3>
+          <p>
+            Before any cutting unlocks, you pass a camera-verified machine-control
+            certification: know your stops, prove you can stop on command, keep clear. A
+            camera can be the patient observer a workshop checkout needs.
+          </p>
+        </div>
+        <div class="card">
+          <h3><span class="tick">&gt;</span>An invitation, not a download</h3>
+          <p>
+            ako is at the idea stage, and this is the moment to shape it, whether you run a
+            lathe, teach in a workshop, or build realtime AI. There is nothing to install
+            yet, only thinking to argue with.
+          </p>
+        </div>
+      </section>
+
+      <section class="invite">
+        <h2>The best time to shape an idea is before it is built.</h2>
+        <p>
+          Learning a manual lathe is a doorway into the trades, and the doorway is
+          narrowing as the people who teach it retire. ako is being thought through in the
+          open. If it pulls at you, come in early.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="https://github.com/vernonkay/ako/discussions"
+            >Join the discussion</a
+          >
+          <a class="btn ghost" href="https://github.com/vernonkay/ako/blob/main/docs/get-involved.md"
+            >Open questions</a
+          >
+        </div>
+      </section>
+
+      <footer>
+        <span>Made in Aotearoa New Zealand.</span>
+        <span
+          >© 2026 Vernon Kay ·
+          <a href="https://github.com/vernonkay/ako">source &amp; licence</a></span
+        >
+      </footer>
+    </div>
+  </body>
+</html>
